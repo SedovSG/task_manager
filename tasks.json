@@ -1,0 +1,14 @@
+[
+    {
+        "id": "5a40dd95",
+        "title": "Сделать домашку по информатике",
+        "priority": "HIGH",
+        "status": "TODO"
+    },
+    {
+        "id": "7edf2dcd",
+        "title": "Сделать домашние дела",
+        "priority": "MEDIUM",
+        "status": "TODO"
+    }
+]
