@@ -17,21 +17,28 @@ class TaskManager:
 
         return new_task
 
-    def complete_task(self, task_id: str) -> bool:
-        for task in self.tasks:
-            if task.id == task_id:
-                task.status = Status.DONE
-                self.save()
-                return True
-        return False
-
-    def remove_task(self, task_id: str) -> bool:
-        lenth = len(self.tasks)
-        self.tasks = [t for t in self.tasks if t.id != task_id]
-        if lenth != len(self.tasks):
+    def complete_task_by_query(self, query: str) -> tuple[bool, list[Task]]:
+        matches: list[Task] = self.find_tasks_by_query(query)
+        if len(matches) == 1:
+            matches[0].status = Status.DONE
             self.save()
-            return True
-        return False
+            return True, matches
+        return False, []
+
+    def find_tasks_by_query(self, query: str) -> list[Task]:
+        query_lower = query.lower()
+        return [
+            task for task in self.tasks
+            if query_lower in task.id.lower() or query_lower in task.title.lower()
+        ]
+
+    def remove_task_by_query(self, query: str) -> tuple[bool, list[Task]]:
+        matches: list[Task] = self.find_tasks_by_query(query)
+        if matches:
+            self.tasks.remove(matches[0])
+            self.save()
+            return True, matches
+        return False, []
 
     def get_sorted_tasks(self) -> list[Task]:
         return sorted(self.tasks)

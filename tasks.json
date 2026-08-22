@@ -1,20 +1,20 @@
 [
     {
-        "id": "5a40dd95",
-        "title": "Сделать домашку по информатике",
-        "priority": "HIGH",
-        "status": "TODO"
-    },
-    {
         "id": "7edf2dcd",
         "title": "Сделать домашние дела",
         "priority": "MEDIUM",
         "status": "DONE"
     },
     {
-        "id": "18207397",
-        "title": "Сделать домашку математике",
-        "priority": "HIGH",
+        "id": "b20630fa",
+        "title": "Помыть полы",
+        "priority": "MEDIUM",
         "status": "DONE"
+    },
+    {
+        "id": "2842b1a1",
+        "title": "Покушать",
+        "priority": "LOW",
+        "status": "TODO"
     }
 ]

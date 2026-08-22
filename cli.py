@@ -46,22 +46,44 @@ def list_tasks():
     console.print(table)
 
 @app.command()
-def done(task_id: str) -> None:
-    """Отметить задачу как выполненную по ID."""
+def done(query: str) -> None:
+    """Отметить задачу как выполненную по ID или названию."""
 
-    if manager.complete_task(task_id):
-        console.print(f"[green]Задача {task_id} выполнена![/green]")
+    success, matches = manager.complete_task_by_query(query)
+
+    if not matches:
+        console.print(f"[red]Задача с ID {query} не найдена.[/red]")
+    elif len(matches) > 1:
+        console.print(f"[red]Найдено несколько задач с ID {query}. Укажите конкретный ID.[/red]")
+        for task in matches:
+            console.print(f"  - [cyan]{task.id}[/cyan]: {task.title}")
     else:
-        console.print(f"[red]Задача с ID {task_id} не найдена.[/red]")
+        task = matches[0]
+
+        if success:
+            console.print(f"[green]Задача {task.id} выполнена![/green]")
+        else:
+            console.print(f"[red]Задача с ID {task.id} не найдена.[/red]")
 
 @app.command()
-def remove(task_id: str) -> None:
-    """Удалить задачу по ID."""
+def remove(query: str) -> None:
+    """Удалить задачу по ID или названию."""
 
-    if manager.remove_task(task_id):
-        console.print(f"[red]Задача {task_id} удалена.[/red]")
+    success, matches = manager.remove_task_by_query(query)
+
+    if not matches:
+        console.print(f"[red]Задача с ID {query} не найдена.[/red]")
+    elif len(matches) > 1:
+        console.print(f"[red]Найдено несколько задач с ID {query}. Укажите конкретный ID.[/red]")
+        for task in matches:
+            console.print(f"  - [cyan]{task.id}[/cyan]: {task.title}")
     else:
-        console.print(f"[red]Задача с ID {task_id} не найдена.[/red]")
+        task = matches[0]
+
+        if success:
+            console.print(f"[red]Задача {task.id} удалена.[/red]")
+        else:
+            console.print(f"[red]Задача {task.id} не найдена.[/red]")
 
 if __name__ == "__main__":
     app()
