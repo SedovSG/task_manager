@@ -1,47 +1,58 @@
+import uuid
 from datetime import datetime
 from enum import Enum
-import uuid
+from typing import final, override
+from zoneinfo import ZoneInfo
+
 
 class Priority(Enum):
     LOW = 1
     MEDIUM = 2
-    HIGH= 3
+    HIGH = 3
+
 class Status(Enum):
     TODO = "TODO"
     DONE = "DONE"
 
+@final
 class Task:
-    def __init__(self,title:str, priority:Priority = Priority.MEDIUM) -> None:
-        self._id = str(uuid.uuid4())[:8]
+    def __init__(self, title: str, priority: Priority = Priority.MEDIUM, task_id: str | None = None) -> None:
+        self._id = task_id if task_id else str(uuid.uuid4())[:8]
         self.title = title
         self.priority = priority
         self._status = Status.TODO
-        self._created_at = datetime.now()
+        self._created_at = datetime.now(tz=ZoneInfo("Asia/Yekaterinburg"))
 
     @property
     def status(self) -> Status:
         return self._status
 
     @status.setter
-    def status(self,value:Status) -> None:
-        if not isinstance(value, Status):
-            raise ValueError("Неверный статус задачи!")
+    def status(self, value: Status) -> None:
         self._status = value
 
     @property
     def id(self) -> str:
         return self._id
 
+    @override
     def __str__(self) -> str:
-        icon =  "✅" if self.status == Status.DONE else "⬜️"
+        icon = "✅" if self.status == Status.DONE else "⬜️"
         return f"{icon} [{self.priority.name}] {self.title} (ID: {self.id})"
-    def __report__(self) -> str:
-        return f"TASK(id='{self.id}',title = '{self.title}',piority = '{self.priority}')"
-    def __eq__(self, other) -> bool:
-        if not isinstance(other,Task):
+
+    @override
+    def __repr__(self) -> str:
+        return f"Task(id='{self.id}', title='{self.title}', priority={self.priority})"
+
+    @override
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Task):
             return NotImplemented
         return self._id == other._id
-    def __lt__(self, other) -> bool:
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Task):
+            return NotImplemented
         if self.status != other.status:
             return self.status == Status.TODO
         return bool(self.priority.value > other.priority.value)

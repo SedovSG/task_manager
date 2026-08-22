@@ -1,10 +1,10 @@
 [project]
 name = "task-manager"
 version = "0.1.0"
-description = "Add your description here"
+description = "CLI менеджер задач на Python"
 readme = "README.md"
 authors = [
-    { name = "Станислав Седо", email = "sedovsg@ya.ru" }
+    { name = "Станислав Седов", email = "sedovsg@ya.ru" }
 ]
 requires-python = ">=3.13"
 dependencies = [
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-task-manager = "task_manager:main"
+task-manager = "cli:app"
 
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]

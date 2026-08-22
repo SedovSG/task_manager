@@ -1,6 +1,10 @@
-from models import Task, Priority, Status
+from typing import final
+
+from models import Priority, Status, Task
 from storage import TaskStorage
 
+
+@final
 class TaskManager:
     def __init__(self, storage: TaskStorage):
         self._storage = storage
@@ -17,7 +21,6 @@ class TaskManager:
         for task in self.tasks:
             if task.id == task_id:
                 task.status = Status.DONE
-                task.status = task.status if isinstance(task.status, type(task.status)) else __import__('models').Status.DONE
                 self.save()
                 return True
         return False

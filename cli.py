@@ -1,37 +1,36 @@
-from enum import show_flag_values
-
-import storage
 import typer
 from rich.console import Console
 from rich.table import Table
-from models import Priority, Status
+
 from manager import TaskManager
+from models import Priority, Status
 from storage import TaskStorage
 
-app = typer.Typer(help="Мощный CLI менеджер задач")
-console = Console()
+app: typer.Typer = typer.Typer(help="Мощный CLI менеджер задач")
+console: Console = Console()
 
 manager = TaskManager(TaskStorage())
 
-
 @app.command()
 def add(title: str, priority: Priority = Priority.MEDIUM):
+    """Добавить новую задачу."""
     task = manager.add_task(title, priority)
     console.print(f"[green]Задача добавлена:[/green] {task}")
 
 @app.command(name="list")
 def list_tasks():
+    """Показать все задачи (отсортированные)."""
     tasks = manager.get_sorted_tasks()
 
     if not tasks:
-        console.print("[yellow]Нет задач[/yellow]")
+        console.print("[yellow]Список задач пуст.[/yellow]")
         return
 
     table = Table(title="Мои задачи", show_lines=True)
-    table.add_column("ID", style="cyan", justify="center", no_wrap=True)
+    table.add_column("ID", style="cyan", no_wrap=True)
     table.add_column("Статус", justify="center")
     table.add_column("Приоритет", justify="center")
-    table.add_column("Название", justify="center")
+    table.add_column("Название", style="white")
 
     for task in tasks:
         status_slyle = "green" if task.status == Status.DONE else "red"
@@ -43,21 +42,26 @@ def list_tasks():
             task.title,
             style=status_slyle
         )
+
     console.print(table)
 
 @app.command()
-def done(task_id: str):
+def done(task_id: str) -> None:
+    """Отметить задачу как выполненную по ID."""
+
     if manager.complete_task(task_id):
-        console.print(f"[green]Задача завершена:[/green] {task_id}")
+        console.print(f"[green]Задача {task_id} выполнена![/green]")
     else:
-        console.print(f"[yellow]Задача не найдена:[/yellow] {task_id}")
+        console.print(f"[red]Задача с ID {task_id} не найдена.[/red]")
 
 @app.command()
-def remove(task_id: str):
+def remove(task_id: str) -> None:
+    """Удалить задачу по ID."""
+
     if manager.remove_task(task_id):
-        console.print(f"[green]Задача удалена:[/green] {task_id}")
+        console.print(f"[red]Задача {task_id} удалена.[/red]")
     else:
-        console.print(f"[red]Задача не найдена:[/red] {task_id}")
+        console.print(f"[red]Задача с ID {task_id} не найдена.[/red]")
 
 if __name__ == "__main__":
     app()

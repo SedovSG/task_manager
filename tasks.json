@@ -9,6 +9,12 @@
         "id": "7edf2dcd",
         "title": "Сделать домашние дела",
         "priority": "MEDIUM",
-        "status": "TODO"
+        "status": "DONE"
+    },
+    {
+        "id": "18207397",
+        "title": "Сделать домашку математике",
+        "priority": "HIGH",
+        "status": "DONE"
     }
 ]
