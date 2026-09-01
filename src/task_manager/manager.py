@@ -1,7 +1,7 @@
 from typing import final
 
-from models import Priority, Status, Task
-from storage import TaskStorage
+from task_manager.models import Priority, Status, Task
+from task_manager.storage import TaskStorage
 
 
 @final

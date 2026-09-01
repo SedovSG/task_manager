@@ -2,9 +2,9 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from manager import TaskManager
-from models import Priority, Status
-from storage import TaskStorage
+from task_manager.manager import TaskManager
+from task_manager.models import Priority, Status
+from task_manager.storage import TaskStorage
 
 app: typer.Typer = typer.Typer(help="Мощный CLI менеджер задач")
 console: Console = Console()

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import cast, final
 
-from models import Priority, Status, Task
+from task_manager.models import Priority, Status, Task
 
 
 @final
