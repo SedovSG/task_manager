@@ -32,6 +32,15 @@ class Task:
         self._status = value
 
     @property
+    def created_at(self) -> str:
+        return str(self._created_at)
+
+    @created_at.setter
+    def created_at(self, value: str) -> None:
+        self._created_at = value
+
+
+    @property
     def id(self) -> str:
         return self._id
 
