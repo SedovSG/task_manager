@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
@@ -8,7 +9,10 @@ from task_manager.models import Priority, Status, Task
 
 @final
 class TaskStorage:
-    def __init__(self, db_path: str = "data/tasks.db") -> None:
+    def __init__(self, db_path: str|None = None) -> None:
+        if db_path is None:
+          db_path = os.getenv("DB_PATH", "data/tasks.db")
+
         self._db_path = Path(db_path)
         self._db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
@@ -71,7 +75,7 @@ class TaskStorage:
 
         tasks: list[Task] = []
         for row in rows:
-            task_id, title, priority_name, status_name, created_at = row
+            _, title, priority_name, status_name, _ = row
 
             task = Task(
                 title=title,

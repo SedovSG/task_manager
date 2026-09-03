@@ -1,4 +1,5 @@
 import typer
+from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 
@@ -8,6 +9,8 @@ from task_manager.storage import TaskStorage
 
 app: typer.Typer = typer.Typer(help="Мощный CLI менеджер задач")
 console: Console = Console()
+
+load_dotenv()
 
 manager = TaskManager(TaskStorage())
 
