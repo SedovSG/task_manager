@@ -6,9 +6,9 @@ from zoneinfo import ZoneInfo
 
 
 class Priority(Enum):
-    LOW = 1
-    MEDIUM = 2
-    HIGH = 3
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
 
 class Status(Enum):
     TODO = "TODO"
@@ -16,12 +16,19 @@ class Status(Enum):
 
 @final
 class Task:
-    def __init__(self, title: str, priority: Priority = Priority.MEDIUM, task_id: str | None = None) -> None:
+    def __init__(
+        self,
+        title: str,
+        priority: Priority = Priority.MEDIUM,
+        task_id: str | None = None,
+        status: Status = Status.TODO,
+        created_at: str | None = None,
+    ) -> None:
         self._id = task_id if task_id else str(uuid.uuid4())[:8]
         self.title = title
         self.priority = priority
-        self._status = Status.TODO
-        self._created_at = datetime.now(tz=ZoneInfo("Asia/Yekaterinburg"))
+        self._status = status
+        self._created_at = created_at or datetime.now(tz=ZoneInfo("Asia/Yekaterinburg"))
 
     @property
     def status(self) -> Status:

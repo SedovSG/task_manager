@@ -75,13 +75,16 @@ class TaskStorage:
 
         tasks: list[Task] = []
         for row in rows:
-            _, title, priority_name, status_name, _ = row
+            id, title, priority, status, created_at = row
 
             task = Task(
                 title=title,
-                priority=Priority[priority_name],
+                priority=Priority[priority],
+                task_id=id,
+                status=Status[status],
+                created_at=created_at,
             )
-            task.status = Status[status_name]
+    
             tasks.append(task)
 
         return tasks

@@ -23,7 +23,7 @@ class TaskManager:
             matches[0].status = Status.DONE
             self.save()
             return True, matches
-        return False, []
+        return False, matches
 
     def find_tasks_by_query(self, query: str) -> list[Task]:
         query_lower = query.lower()
@@ -34,11 +34,11 @@ class TaskManager:
 
     def remove_task_by_query(self, query: str) -> tuple[bool, list[Task]]:
         matches: list[Task] = self.find_tasks_by_query(query)
-        if matches:
+        if len(matches) == 1:
             self.tasks.remove(matches[0])
             self.save()
             return True, matches
-        return False, []
+        return False, matches
 
     def get_sorted_tasks(self) -> list[Task]:
         return sorted(self.tasks)
