@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 
+from task_manager.docktor import check_enveronment
 from task_manager.manager import TaskManager
 from task_manager.models import Priority, Status
 from task_manager.storage import TaskStorage
@@ -111,6 +112,17 @@ def clear(flag: bool = typer.Option(
 
     removed = manager.remove_all_tasks()
     console.print(f"[red]Удалено задач: {removed}.[/red]")
+
+@app.command()
+def doctor() -> None:
+    """ Проверить окружение """
+    if check_enveronment():
+        console.print("[green]✓ Всё готово![/green]")
+        return typer.Exit(0)
+
+    console.print("[red bold]✗ Есть проблемы![/red bold]\n")
+    raise typer.Exit(1)
+
 
 if __name__ == "__main__":
     app()
