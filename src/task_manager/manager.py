@@ -40,6 +40,14 @@ class TaskManager:
             return True, matches
         return False, matches
 
+    def remove_all_tasks(self) -> int:
+        """ Удаляет все задачи. Возвращает кол-во удалённых. """
+        count = len(self.tasks)
+        self.tasks.clear()
+        self._storage.remove_all()
+        return count
+
+
     def get_sorted_tasks(self) -> list[Task]:
         return sorted(self.tasks)
 

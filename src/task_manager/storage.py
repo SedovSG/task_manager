@@ -1,10 +1,18 @@
 import os
-import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 from typing import final
 
 from task_manager.models import Priority, Status, Task
+
+try:
+    import sqlite3
+except ImportError:
+    raise RuntimeError(
+        "Модуль Sqlite3 не найден.\n\n"
+        "Решение:\n"
+        "sudo apt update && sudo apt install python3-sqlite3"
+    )
 
 
 @final
@@ -84,7 +92,12 @@ class TaskStorage:
                 status=Status[status],
                 created_at=created_at,
             )
-    
+
             tasks.append(task)
 
         return tasks
+
+    def remove_all(self) -> None:
+        """ Удаляет все задачи """
+        with self._get_connection() as connect:
+            connect.execute("DELETE FROM tasks")

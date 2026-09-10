@@ -86,5 +86,31 @@ def remove(query: str) -> None:
     elif success:
         console.print(f"[red]Задача '{matches[0].title}' удалена.[/red]")
 
+@app.command()
+def clear(flag: bool = typer.Option(
+    False,
+    "--yes", "-y",
+    help="Не запрашивать подтверждение"
+)) -> None:
+    """ Удалить все задачи (необротимо) """
+
+    if not manager.tasks:
+        console.print("[yellow]Список задач пуст.[/yellow]")
+        return
+
+    count = len(manager.tasks)
+
+    if not flag:
+        confirm = typer.confirm(
+            f"Вы уверены, что хотите удалить все задачи ({count})?"
+        )
+
+        if not confirm:
+            console.print("[yellow]Отменено.[/yellow]")
+            return
+
+    removed = manager.remove_all_tasks()
+    console.print(f"[red]Удалено задач: {removed}.[/red]")
+
 if __name__ == "__main__":
     app()
