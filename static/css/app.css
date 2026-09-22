@@ -1,0 +1,33 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding-top: 40px;
+}
+.app-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    padding: 30px;
+    margin-bottom: 20px;
+}
+.task-item {
+    border-left: 4px solid #667eea;
+    transition: all 0.3s;
+}
+.task-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.task-item.done {
+    opacity: 0.6;
+    border-left-color: #28a745;
+}
+.task-item.done .task-title {
+    text-decoration: line-through;
+}
+.priority-HIGH { color: #dc3545; font-weight: bold; }
+.priority-MEDIUM { color: #fd7e14; font-weight: bold; }
+.priority-LOW { color: #6c757d; }
+.badge-HIGH { background-color: #dc3545; }
+.badge-MEDIUM { background-color: #fd7e14; }
+.badge-LOW { background-color: #6c757d; }
