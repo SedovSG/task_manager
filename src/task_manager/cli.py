@@ -118,7 +118,7 @@ def doctor() -> None:
     """ Проверить окружение """
     if check_enveronment():
         console.print("[green]✓ Всё готово![/green]")
-        return typer.Exit(0)
+        raise typer.Exit(0)
 
     console.print("[red bold]✗ Есть проблемы![/red bold]\n")
     raise typer.Exit(1)

@@ -1,12 +1,10 @@
-from tokenize import String
-from typing import Optional
-
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from src.task_manager import storage
+from task_manager.models import Priority, Status, Task
+from task_manager.storage import TaskStorage
 
 app = FastAPI(title="Task Manager")
 
@@ -17,11 +15,11 @@ class TaskCreate(BaseModel):
     priority: str = "MEDIUM"
 
 class TaskUpdate(BaseModel):
-    title: Optional[str] = None
-    priority: Optional[str] = None
-    status: Optional[str] = None
+    title: str | None = None
+    priority: str | None = None
+    status: str | None = None
 
-storage = storage.TaskStorage()
+storage: TaskStorage = TaskStorage()
 
 @app.get("/")
 async def root():
