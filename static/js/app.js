@@ -1,5 +1,56 @@
 const API_URL = '/api/tasks'
 
+async function addTask() {
+  const titleRaw = document.getElementById('task-title')
+  const priorityRaw = document.getElementById('task-priority')
+  const messageRaw = document.getElementById('add-message')
+
+  const title = titleRaw.value.trim()
+  const priority = priorityRaw.value.trim()
+
+  if (!title) {
+    messageRaw.innerHTML = '<div class="alert alert-warning py-2">Введите название задачи</div>'
+    return
+  }
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({title, priority})
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Ошибка создания')
+    }
+
+    titleRaw = ''
+    titleRaw.focus()
+    messageRaw.innerHTML = '<div class="alert alert-success py-2">Задача добавлена</div>'
+    setTimeout(() => { messageRaw.innerHTML = '' }, 200)
+
+    loadTasks()
+  } catch (error) {
+    messageRaw.innerHTML = `<div class="alert alert-danger py-2">${error.mesage}</div>`
+  }
+}
+
+document.getElementById('add-form').addEventListener('submit', (event) => {
+  event.preventDefault()
+  addTask()
+})
+
+async function removeTask() {
+
+}
+
+async function doneTask() {
+
+}
+
 async function loadTasks() {
   try {
     const response = await fetch(API_URL)
