@@ -22,7 +22,7 @@ class Task:
         priority: Priority = Priority.MEDIUM,
         task_id: str | None = None,
         status: Status = Status.TODO,
-        created_at: str | None = None,
+        created_at: datetime | None = None,
     ) -> None:
         self._id = task_id if task_id else str(uuid.uuid4())[:8]
         self.title = title
@@ -39,11 +39,11 @@ class Task:
         self._status = value
 
     @property
-    def created_at(self) -> str:
-        return str(self._created_at)
+    def created_at(self) -> datetime:
+        return self._created_at
 
     @created_at.setter
-    def created_at(self, value: str) -> None:
+    def created_at(self, value: datetime) -> None:
         self._created_at = value
 
 

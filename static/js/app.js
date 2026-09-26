@@ -27,14 +27,14 @@ async function addTask() {
       throw new Error(error.detail || 'Ошибка создания')
     }
 
-    titleRaw = ''
+    titleRaw.vale = ''
     titleRaw.focus()
     messageRaw.innerHTML = '<div class="alert alert-success py-2">Задача добавлена</div>'
-    setTimeout(() => { messageRaw.innerHTML = '' }, 200)
+    setTimeout(() => { messageRaw.innerHTML = '' }, 2000)
 
     loadTasks()
   } catch (error) {
-    messageRaw.innerHTML = `<div class="alert alert-danger py-2">${error.mesage}</div>`
+    messageRaw.innerHTML = `<div class="alert alert-danger py-2">${error.message}</div>`
   }
 }
 
@@ -68,7 +68,7 @@ function renderTask(tasks) {
   const list = document.getElementById("task-list")
   document.getElementById("task-count").textContent = tasks.length
 
-  if (tasks.lenth === 0) {
+  if (tasks.length === 0) {
     list.innerHTML = '<div class="text-center text-muted py-4">Нет задач. Добавьте первую!</div>'
     return
   }
